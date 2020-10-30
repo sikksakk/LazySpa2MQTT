@@ -5,3 +5,8 @@ Plan is to extend it to also be able to turn on/off pump and adjust temp setpoin
 Also my very first python script :-) (so dont kill me..)
 
 Run the script ie. every 30min in a cron.
+
+
+
+Based on work done by Bruce Hartley;
+https://community.home-assistant.io/t/lay-z-spa-hot-tub-wi-fi-pump-automation/229006
