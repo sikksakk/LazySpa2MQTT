@@ -1,14 +1,18 @@
-import requests
-import json
-import time
+import requests, json, time, datetime, timeago, os.path
 import paho.mqtt.client as paho
-import datetime
-import timeago
+from configparser import ConfigParser
+
+#Set default configfile
+configfile = "/etc/openhab/scripts/config.ini"
+
+#Validate that configuration file exists
+if (os.path.isfile(configfile) == False):
+    print(f'Cannot find configfile: {configfile}')
+    exit(1)
 
 #Read config
-from configparser import ConfigParser
 config = ConfigParser()
-config.read('config.ini')
+config.read(configfile)
 
 email = config.get("Layzspa", 'email')
 password = config.get("Layzspa", 'password')
@@ -95,6 +99,9 @@ updated_at = datetime.datetime.fromtimestamp(data["updated_at"])
 now = datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4)
 updated_ago = timeago.format(updated_at, now)
 sendMQTT("updated_at_string", updated_ago)
+
+updated_at_date = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(data["updated_at"]))
+sendMQTT("updated_at_date", updated_at_date)
 
 #Send updated_at
 sendMQTT("updated_at", data["updated_at"])
