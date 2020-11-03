@@ -1,4 +1,4 @@
-import requests, json, time, datetime, timeago, os.path
+import requests, json, time, datetime, os.path
 import paho.mqtt.client as paho
 from configparser import ConfigParser
 
@@ -94,12 +94,7 @@ tmp = response.json()
 data = tmp["data"]
 attr = data["attr"]
 
-#Send the updated_at formatted as a "x minutes ago" string
-updated_at = datetime.datetime.fromtimestamp(data["updated_at"])
-now = datetime.datetime.now() + datetime.timedelta(seconds = 60 * 3.4)
-updated_ago = timeago.format(updated_at, now)
-sendMQTT("updated_at_string", updated_ago)
-
+#Send the updated_at formatted as a date string
 updated_at_date = time.strftime('%d-%m-%Y %H:%M:%S', time.localtime(data["updated_at"]))
 sendMQTT("updated_at_date", updated_at_date)
 
