@@ -19,6 +19,8 @@ password = config.get("Layzspa", 'password')
 did = config.get("Layzspa", 'did')
 api_token = config.get("Layzspa", 'api_token')
 mqtt_host = config.get("MQTT", 'host')
+mqtt_user = config.get("MQTT", 'user')
+mqtt_password = config.get("MQTT", 'password')
 mqtt_client = config.get("MQTT", 'client')
 mqtt_rootSubject = config.get("MQTT", 'rootSubject')
 print("Read config:")
@@ -32,6 +34,11 @@ print(f'did:\t\t{did}')
 print(f'api_token:\t\t{api_token}')
 print(f'mqtt_host:\t\t{mqtt_host}')
 print(f'mqtt_client:\t\t{mqtt_client}')
+print(f'mqtt_user:\t\t{mqtt_user}')
+if (mqtt_password):
+    print('mqtt_password:\t\t********')
+else:
+    print('MQTT Password not set..')
 print(f'mqtt_rootSubject:\t{mqtt_rootSubject}')
 print("--------------------")
 
@@ -66,6 +73,8 @@ def onoroff(int):
 
 #Connect to the MQTT Broker
 client=paho.Client(mqtt_client)
+if (mqtt_user) and (mqtt_password):
+    client.username_pw_set(mqtt_user,mqtt_password)
 print(f'Connecting to MQTT broker: {mqtt_host}')
 client.connect(mqtt_host)
 
